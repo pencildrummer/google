@@ -49,10 +49,13 @@ class GoogleStrategy extends OpauthStrategy{
 			'response_type' => 'code',
 			'scope' => $this->strategy['scope']
 		);
-
+		
 		foreach ($this->optionals as $key){
 			if (!empty($this->strategy[$key])) $params[$key] = $this->strategy[$key];
 		}
+		
+		if (!empty($params['scope']) && is_array($params['scope']))
+			$params['scope'] = implode(" ", $params['scope']);
 		
 		$this->clientGet($url, $params);
 	}
